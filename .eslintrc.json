@@ -1,10 +1,3 @@
 {
-  "extends": "next/core-web-vitals",
-  "rules": {
-    "no-console": "off", // Disable the no-console rule
-    "react/react-in-jsx-scope": "off", // Disable the react-in-jsx-scope rule (not needed in Next.js)
-    "no-unused-vars": "off", // Disable the no-unused-vars rule
-    "jsx-a11y/anchor-is-valid": "off" // Example of disabling an accessibility rule
-    // Add any other rules you want to disable
-  }
+  "extends": "next/core-web-vitals"
 }
