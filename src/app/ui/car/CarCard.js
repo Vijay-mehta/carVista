@@ -1,10 +1,11 @@
 'use client'
+import Image from "next/image";
 const CarCard=({carData})=>{
     // console.log("dara",carData)
     return(
         <div className=" ">
       
-      <img src='/home/Tesla.jpg' alt="car image" height={200} width={200}/>
+      <Image src='/home/Tesla.jpg' alt="car image" height={200} width={200}/>
       <div  className=" grid  grid-cols-2  gap-2   bg-white  shadow-sm p-4"> 
       <p>Price</p>
       <span  className=" font-bold">{carData.price}</span>
