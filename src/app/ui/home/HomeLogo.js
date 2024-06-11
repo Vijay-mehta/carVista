@@ -5,9 +5,10 @@ import { PiArrowRightLight } from "react-icons/pi";
 
 const HomeLogo=()=>{
     return(
-        <div className=" flex items-center  bg-white  text-black  shadow-md  p-2  rounded-md">
-      <FaCarSide   className=" h-20 w-20 text-[#f75d34]"/><p className=" pl-2  font-bold text-xl ">CarVista</p>
-      <PiArrowRightLight className=" w-10  h-9"/>
+        <div className=" flex items-center  bg-[#beac86] shadow-md  rounded-md">
+      {/* <FaCarSide   className="h-10 w-10 md:h-20 md:w-20 text-[#f75d34]"/> */}
+      <p className=" pl-2  font-bold text-xl text-white">CarVista</p>
+      <PiArrowRightLight className=" text-white w-10 h-10 ml-3 md:w-10  md:h-9"/>
 
     </div>
     )
