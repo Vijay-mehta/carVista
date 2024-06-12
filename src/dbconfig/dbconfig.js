@@ -4,9 +4,9 @@ export async function mongoConnect() {
   const options = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    serverSelectionTimeoutMS: 5000, 
-    socketTimeoutMS: 45000, 
-    connectTimeoutMS: 10000, 
+    serverSelectionTimeoutMS: 5000, // Timeout after 5 seconds instead of 30 seconds
+    socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
+    connectTimeoutMS: 10000, // Increase connection timeout to 10 seconds
   };
 
   try {
@@ -15,4 +15,10 @@ export async function mongoConnect() {
   } catch (error) {
     console.error('Error connecting to MongoDB:', error);
   }
+}
+
+// Example usage in getServerSideProps or an API route
+export async function handler(req, res) {
+  await mongoConnect();
+  // Your logic here
 }
