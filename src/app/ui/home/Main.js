@@ -27,7 +27,7 @@ const Main = () => {
   return (
     <div className="relative w-full h-[calc(100vh-1rem)] md:min-h-screen">
       {(devicePixelRatio > 2) ? 
-        (devicePixelRatio > 3) ? 
+        (devicePixelRatio > 1) ? 
           <Image
             fill
             src="/home/thar.jpg"
