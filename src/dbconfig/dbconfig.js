@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 
+
 export async function mongoConnect() {
   const mongoUri = process.env.MONGO_URI;
   if (!mongoUri) {
@@ -8,10 +9,7 @@ export async function mongoConnect() {
   }
   console.log('Connecting to MongoDB with URI:', mongoUri);
   try {
-    await mongoose.connect(mongoUri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(mongoUri);
     console.log('MongoDB connected successfully');
   } catch (error) {
     console.error('Error connecting to MongoDB:', error);
