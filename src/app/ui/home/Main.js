@@ -35,7 +35,7 @@ const Main = () => {
           /> : 
           <Image
             src="/home/car.jpg"
-            alt="home page image"
+            alt="home page image "
             quality={100}
             layout="fill"
             objectFit="cover"

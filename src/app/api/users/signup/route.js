@@ -1,13 +1,16 @@
 import User from "@/models/userModel";
 import { mongoConnect } from "@/dbconfig/dbconfig";
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import path from "path";
+import fs from "fs";
 import bcrypt from "bcryptjs";
 
 mongoConnect();
+
 export async function POST(req) {
   try {
     const reqBody = await req.formData();
+    console.log("reqbody", reqBody);
     const userprofile = reqBody.get("userprofile");
     const username = reqBody.get("username");
     const email = reqBody.get("email");
@@ -32,7 +35,7 @@ export async function POST(req) {
     const existUser = await User.findOne({ email });
     if (existUser) {
       return NextResponse.json(
-        { error: "User already exist" },
+        { error: "User already exists" },
         { status: 409 }
       );
     }
@@ -40,14 +43,21 @@ export async function POST(req) {
     const existName = await User.findOne({ username });
     if (existName) {
       return NextResponse.json(
-        { error: "username already exist" },
+        { error: "Username already exists" },
         { status: 409 }
       );
     }
+
     const fileName = `${Date.now()}-${userprofile.name}`;
     const filePath = path.join(process.cwd(), "Uploads", fileName);
 
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@gamil\.(com|\.)$/;
+    // Ensure the upload directory exists
+    const uploadDir = path.join(process.cwd(), "Uploads");
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
     const isValidEmail = emailPattern.test(email);
 
     if (!isValidEmail) {
@@ -58,23 +68,22 @@ export async function POST(req) {
     }
 
     const salt = await bcrypt.genSalt(10);
-
-    const hasPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser = new User({
       userprofile: filePath,
       username,
       email,
-      password: hasPassword,
+      password: hashedPassword,
     });
 
     const savedUser = await newUser.save();
-    let parsename = JSON.parse(savedUser.username);
+
     return NextResponse.json({
-      message: "user successfully register",
+      message: "User successfully registered",
       success: true,
       response: {
-        username: parsename,
+        username: savedUser.username,
         email: savedUser.email,
         userprofile: filePath,
       },
@@ -82,9 +91,9 @@ export async function POST(req) {
       status: 200,
     });
   } catch (error) {
-    console.log(`Something want to wrong ${error}`);
+    console.log(`Something went wrong: ${error}`);
     return NextResponse.json({
-      error: "Something want to wrong",
+      error: "Something went wrong",
       status: 500,
     });
   }
