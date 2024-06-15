@@ -23,17 +23,11 @@ export async function POST(req) {
       return NextResponse.json({ error: "User Not Found" }, { status: 400 });
     }
 
-    const newUser = User({
-      email,
-      password,
-    });
-    const saveUser = await newUser.save();
-
     return NextResponse.json({
       message: "User Login Successfully",
       success: true,
       response: {
-        email: saveUser.email,
+        email,
         status: 200,
       },
     });

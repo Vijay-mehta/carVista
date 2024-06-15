@@ -2,7 +2,6 @@ import User from "@/models/userModel";
 import { mongoConnect } from "@/dbconfig/dbconfig";
 import { NextResponse } from "next/server";
 import path from "path";
-import fs from "fs";
 import bcrypt from "bcryptjs";
 
 mongoConnect();
@@ -10,7 +9,6 @@ mongoConnect();
 export async function POST(req) {
   try {
     const reqBody = await req.formData();
-    console.log("reqbody", reqBody);
     const userprofile = reqBody.get("userprofile");
     const username = reqBody.get("username");
     const email = reqBody.get("email");
@@ -51,11 +49,7 @@ export async function POST(req) {
     const fileName = `${Date.now()}-${userprofile.name}`;
     const filePath = path.join(process.cwd(), "Uploads", fileName);
 
-    // Ensure the upload directory exists
-    const uploadDir = path.join(process.cwd(), "Uploads");
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
-    }
+   
 
     const emailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
     const isValidEmail = emailPattern.test(email);
@@ -69,21 +63,24 @@ export async function POST(req) {
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
+    const saveUserName=JSON.parse(username)
+
 
     const newUser = new User({
       userprofile: filePath,
-      username,
+      username:saveUserName,
       email,
       password: hashedPassword,
     });
 
     const savedUser = await newUser.save();
 
+
     return NextResponse.json({
       message: "User successfully registered",
       success: true,
       response: {
-        username: savedUser.username,
+        username:savedUser.username,
         email: savedUser.email,
         userprofile: filePath,
       },

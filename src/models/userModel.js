@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
   },
   userprofile: {
     type: String,
-    required: [true, "userProfile is required"],
+    // required: [true, "userProfile is required"],
   }
 });
 
