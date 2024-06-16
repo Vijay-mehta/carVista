@@ -16,5 +16,5 @@ const carSchema = new mongoose.Schema({
   image: { type: [String], required: [true, "this is required"] },
 });
 
-const Cars = mongoose.model('cars', carSchema);  
+const Cars = mongoose.model.Cars||mongoose.model('cars', carSchema);  
 export default Cars;

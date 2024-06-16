@@ -38,13 +38,13 @@ export async function POST(req) {
       );
     }
 
-    const existName = await User.findOne({ username });
-    if (existName) {
-      return NextResponse.json(
-        { error: "Username already exists" },
-        { status: 409 }
-      );
-    }
+    // const existName = await User.findOne({ username });
+    // if (existName) {
+    //   return NextResponse.json(
+    //     { error: "Username already exists" },
+    //     { status: 409 }
+    //   );
+    // }
 
     const fileName = `${Date.now()}-${userprofile.name}`;
     const filePath = path.join(process.cwd(), "Uploads", fileName);

@@ -12,7 +12,6 @@ const HomeLogo = ({ carName }) => {
 
           <p className=" pl-2  font-bold text-sm text-black">{carName}</p>
 
-          {/* <PiArrowRightLight className=" text-white w-10 h-10 ml-3 md:w-10  md:h-9" /> */}
         </div>
       </Link>
     </>
