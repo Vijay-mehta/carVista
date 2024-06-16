@@ -4,7 +4,7 @@ const CarCard = ({ carData }) => {
   return (
     <div className=" text-black    bg-green-600">
        <h1>hello</h1>
-       {carData?.response?.map((car)=>(car.price))}
+     
       {/* <Image src="/home/Tesla.jpg" alt="car image" height={200} width={200} /> */}
       {/* <div className=" grid  grid-cols-2 text-black">
         <p>Price</p>

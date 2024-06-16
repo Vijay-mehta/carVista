@@ -1,18 +1,22 @@
 'use client'
 import CarList from "@/app/ui/car/CartList";
-import { useInternalService } from "@/app/hook/useInternalService";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const UserCar=()=>{
    
-    const [carData, isCarDataLoading, carDataError, fetchCarData] = useInternalService("http://localhost:3000/api/car/getcar", "GET");
+  const [newData,setNewData]=useState([])
+const apiCall= async()=>{
+  let res= await fetch("http://localhost:3000/api/car/getcar");
+  let data = await res.json()
+ setNewData(data)
+ }
 
-    useEffect(()=>{ fetchCarData()},[])
+ useEffect(()=>{apiCall()},[])
       
    
     return(
         <div className=" bg-white">
-        <CarList carData={carData}/>
+        <CarList carData={newData}/>
         </div>
     )
 }

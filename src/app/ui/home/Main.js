@@ -1,9 +1,12 @@
+'use client';
+
 import Image from "next/image";
 import HomeLogo from "./HomeLogo";
 
 const Main = () => {
 
- 
+
+
 
   return (
     <div className="relative w-full h-[calc(100vh-1rem)] md:min-h-screen mt-3">
@@ -18,10 +21,13 @@ const Main = () => {
         }}
         className="object-center"
       />
-      <div className=" absolute top-44 right-6  md:bottom-96 md:left-20 flex">
-       <div ><HomeLogo carName="Buy Car" /></div> 
-        <HomeLogo carName="Service Car" />
+      <div className="absolute top-44 right-6 md:bottom-96 md:left-20 flex">
+        <div >
+          <HomeLogo carName="Buy Car" />
+        </div> 
+        {/* <HomeLogo carName="Service Car" /> */}
       </div>
+  
     </div>
   );
 };
