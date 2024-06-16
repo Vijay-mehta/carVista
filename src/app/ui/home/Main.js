@@ -25,7 +25,8 @@ const Main = () => {
         <div >
           <HomeLogo carName="Buy Car" />
         </div> 
-        {/* <HomeLogo carName="Service Car" /> */}
+        <HomeLogo carName="Service Car" />
+        
       </div>
   
     </div>

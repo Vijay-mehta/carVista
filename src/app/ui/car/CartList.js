@@ -3,11 +3,10 @@ import CarCard from "./CarCard";
 
 const CarList =  ({carData}) => {
 
-// console.log("carData on CarList",carData.response
-// )
+
 
   return (
-   <div className=" text-black mt-14 pt-12">  
+   <div className="  grid  grid-cols-2 md:grid-cols-5 ">  
     {carData?.response?.map((car)=><div key={car._id}><CarCard carData={car}/></div> )}
    </div>
 
