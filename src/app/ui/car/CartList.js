@@ -7,10 +7,8 @@ const CarList =  ({carData}) => {
 // )
 
   return (
-   <div className="  bg-green-700 mt-14 pt-12">
-   <h1>CarList</h1>
-  
-    {carData?.response?.map((car)=><div key={car._id} className=" text-black">{car.price}<p>hello</p></div> )}
+   <div className=" text-black mt-14 pt-12">  
+    {carData?.response?.map((car)=><div key={car._id}><CarCard carData={car}/></div> )}
    </div>
 
   );

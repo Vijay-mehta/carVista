@@ -3,10 +3,9 @@ const CarCard = ({ carData }) => {
   console.log("dara22",carData)
   return (
     <div className=" text-black    bg-green-600">
-       <h1>hello</h1>
      
       {/* <Image src="/home/Tesla.jpg" alt="car image" height={200} width={200} /> */}
-      {/* <div className=" grid  grid-cols-2 text-black">
+      <div className=" grid  grid-cols-2 text-black">
         <p>Price</p>
         <span className=" font-bold">{carData.price}</span>
         <p>Mileage</p>
@@ -17,7 +16,7 @@ const CarCard = ({ carData }) => {
         <span className=" font-bold">{carData.model}</span>
         <p>color</p>
         <span className=" font-bold">{carData.color}</span>
-      </div> */}
+      </div>
     </div>
   );
 };
