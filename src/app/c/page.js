@@ -6,7 +6,7 @@ const UserCar=()=>{
    
   const [newData,setNewData]=useState([])
 const apiCall= async()=>{
-  let res= await fetch("http://localhost:3000/api/car/getcar");
+  let res= await fetch("api/car/getcar");
   let data = await res.json()
  setNewData(data)
  }
