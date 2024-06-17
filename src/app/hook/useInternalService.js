@@ -17,14 +17,7 @@ export function useInternalService(action, method) {
     try {
       const options = {
         method: method.toUpperCase(),
-        // headers: {
-        //   "Content-Type": "application/json",
-        // },
       };
-
-      if (body && (method === "POST" || method === "PUT")) {
-        options.body = JSON.stringify(body);
-      }
 
       const res = await fetch(action, options);
       const data = await res.json();
