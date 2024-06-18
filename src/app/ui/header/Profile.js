@@ -25,12 +25,12 @@ const Profile = () => {
               </h1>
               <div className="   flex items-center  cursor-pointer mt-4 ">
                 <div className=" bg-[#e96440]  px-4 py-1 md:px-5 md:py-2 text-white  mr-2  rounded-lg     ">
-                  <Link href="/store/login" className=" font-medium">
+                  <Link href="/login" className=" font-medium">
                     Login
                   </Link>
                 </div>
                 <div className=" bg-[#e96440]  px-4 py-1 md:px-5 md:py-2 text-white  rounded-lg">
-                  <Link href="/store/signup" className=" font-medium">
+                  <Link href="/signup" className=" font-medium">
                     Signup
                   </Link>
                 </div>
