@@ -1,7 +1,7 @@
 import Image from "next/image";
 const CarCard = ({ carData }) => {
   return (
-    <div className=" text-black  bg-white p-6 shadow-lg rounded-lg  border border-[#ebab9c]">
+    <div className=" text-black  bg-white p-6 shadow-lg rounded-lg ">
         <Image src="/home/Tesla.jpg" alt="car image" height={400} width={400} />
         <div className="  grid gap-2 grid-cols-1   mt-2">
         <span className=" font-medium">{`${carData.make} ${carData.model}`}</span>

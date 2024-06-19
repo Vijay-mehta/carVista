@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export function useInternalService(action, method) {
+export function useInternalApiService(action, method) {
   const [response, setResponse] = useState({
     result: null,
     inProgress: false,
@@ -15,9 +15,17 @@ export function useInternalService(action, method) {
     });
 
     try {
+      const url = action;
+      if (params) {
+        `${url}/${params.join("/")}`;
+      }
+
       const options = {
         method: method.toUpperCase(),
       };
+      if (body && (method == "POST" || method == "PUT")) {
+        options.body = JSON.stringify(body);
+      }
 
       const res = await fetch(action, options);
       const data = await res.json();

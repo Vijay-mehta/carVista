@@ -1,11 +1,11 @@
 "use client";
-import { useInternalService } from "@/app/hook/useInternalService";
+import { useInternalApiService } from "@/app/hook/useInternalApiService";
 import CarList from "@/app/ui/car/CartList";
 import { useEffect, useState } from "react";
 
 const UserCar = () => {
   const [fetchCar, fetchCarResult, fetchCarInProgress, fetchCarError] =
-    useInternalService("api/car/getcar", "GET");
+    useInternalApiService("api/car/getcar", "GET");
 
   useEffect( () => {
     fetchCar();
