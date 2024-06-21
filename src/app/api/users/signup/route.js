@@ -9,6 +9,7 @@ mongoConnect();
 export async function POST(req) {
   try {
     const reqBody = await req.formData();
+    console.log("reqbody",reqBody)
     const userprofile = reqBody.get("userprofile");
     const username = reqBody.get("username");
     const email = reqBody.get("email");

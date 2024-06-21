@@ -13,7 +13,7 @@ export function useInternalApiService(action, method) {
       inProgress: true,
       error: null,
     });
-
+console.log("bodysi",body)
     try {
       const url = action;
       if (params) {
