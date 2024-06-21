@@ -16,7 +16,7 @@ const Signup = () => {
     if (name === "file" && files.length > 0) {
       setUserData((prev) => ({
         ...prev,
-        file: URL.createObjectURL(files[0])
+        file: URL.createObjectURL(files[0]),
       }));
     } else {
       setUserData((prev) => ({
@@ -26,32 +26,34 @@ const Signup = () => {
     }
   };
 
-  const [saveUser, saveUserResult, saveUserInProgress, saveUserError] = useInternalApiService(
-    "http://localhost:3000/api/users/signup",
-    "POST"
-  );
+  const [saveUser, saveUserResult, saveUserInProgress, saveUserError] =
+    useInternalApiService("http://localhost:3000/api/users/signup", "POST");
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const data = new FormData();
-    data.append('userprofile', userData.file);
-    data.append('username', userData.name);
-    data.append('email', userData.email);
-    data.append('password', userData.password);
+    data.append("userprofile", userData.file);
+    data.append("username", userData.name);
+    data.append("email", userData.email);
+    data.append("password", userData.password);
 
     // Logging the FormData contents
-   
 
     saveUser({
-      body: data
+      body: data,
     });
   };
 
   return (
     <div className="flex justify-center items-center">
-      <form className="bg-[#faebd7] p-6 h-screen" onSubmit={handleSubmit}>
-        <h1 className="text-center font-semibold mb-8 text-black">Signup Form</h1>
+      <form
+        className="bg-[#faebd7] p-6 h-screen w-full md:w-[600px] md:h-[600px]"
+        onSubmit={handleSubmit}
+      >
+        <h1 className="text-center font-semibold mb-8 text-black">
+          Signup Form
+        </h1>
         <div className="flex justify-center">
           <img
             src={userData.file}
@@ -69,7 +71,7 @@ const Signup = () => {
             id="picId"
           />
         </div>
-        <div className="flex flex-col w-[350px] mt-6">
+        <div className="flex flex-col  mt-6">
           <input
             type="text"
             placeholder="Enter Your Name"
@@ -93,13 +95,18 @@ const Signup = () => {
           />
         </div>
         <div className="flex m-2">
-          <button type="submit" className="bg-[#f75d34] px-6 py-2 mr-2 text-white rounded">
+          <button
+            type="submit"
+            className="bg-[#f75d34] px-6 py-2 mr-2 text-white rounded"
+          >
             Signup
           </button>
         </div>
         <p className="mt-4 m-2 text-black">
           Already have an account?{" "}
-          <Link href="/#" className="text-blue-600">Login</Link>
+          <Link href="/#" className="text-blue-600">
+            Login
+          </Link>
         </p>
       </form>
     </div>
