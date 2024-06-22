@@ -1,7 +1,8 @@
 "use client";
 import { useInternalApiService } from "@/app/hook/useInternalApiService";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const Signup = () => {
   const [userData, setUserData] = useState({
@@ -11,13 +12,17 @@ const Signup = () => {
     password: "",
   });
 
+  const [imagePreview, setImagePreview] = useState("/home/Tesla.jpg");
+
   const handleChange = (e) => {
     const { files, value, name } = e.target;
     if (name === "file" && files.length > 0) {
+      const file = files[0];
       setUserData((prev) => ({
         ...prev,
-        file: URL.createObjectURL(files[0]),
+        file: file,
       }));
+      setImagePreview(URL.createObjectURL(file));
     } else {
       setUserData((prev) => ({
         ...prev,
@@ -27,23 +32,32 @@ const Signup = () => {
   };
 
   const [saveUser, saveUserResult, saveUserInProgress, saveUserError] =
-    useInternalApiService("http://localhost:3000/api/users/signup", "POST");
+    useInternalApiService("api/users/signup", "POST");
+
+console.log("saveUserResult",saveUserResult)
+console.log("saveUserInProgress",saveUserInProgress)
+console.log("saveUserError",saveUserError)
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const data = new FormData();
-    data.append("userprofile", userData.file);
-    data.append("username", userData.name);
-    data.append("email", userData.email);
-    data.append("password", userData.password);
-
-    // Logging the FormData contents
-
+    const formData = new FormData();
+    formData.append("username", userData.name);
+    formData.append("email", userData.email);
+    formData.append("password", userData.password);
+    formData.append("userprofile", userData.file);
     saveUser({
-      body: data,
+      body: formData,
     });
   };
+
+  useEffect(() => {
+    if (saveUserResult?.message) {
+      toast.success(`${saveUserResult?.message}`);
+    } else if (saveUserError) {
+      toast.error(`${saveUserError}`);
+    }
+  }, [saveUserResult,saveUserError]);
 
   return (
     <div className="flex justify-center items-center">
@@ -56,7 +70,7 @@ const Signup = () => {
         </h1>
         <div className="flex justify-center">
           <img
-            src={userData.file}
+            src={imagePreview}
             width={250}
             height={250}
             className="h-36 w-36 rounded-full cursor-pointer"
@@ -77,21 +91,21 @@ const Signup = () => {
             placeholder="Enter Your Name"
             name="name"
             onChange={handleChange}
-            className="px-4 py-3 m-2 border border-gray-300 bg-gray-100"
+            className="px-4 py-3 m-2 border border-gray-300 bg-gray-100 text-black"
           />
           <input
             type="email"
             placeholder="Enter Your Email"
             name="email"
             onChange={handleChange}
-            className="px-4 py-3 m-2 border border-gray-300 bg-gray-100"
+            className="px-4 py-3 m-2 border border-gray-300 bg-gray-100 text-black"
           />
           <input
             type="password"
             placeholder="Enter Your Password"
             name="password"
             onChange={handleChange}
-            className="px-4 py-3 m-2 border border-gray-300 bg-gray-100"
+            className="px-4 py-3 m-2 border border-gray-300 bg-gray-100 text-black"
           />
         </div>
         <div className="flex m-2">
@@ -102,8 +116,9 @@ const Signup = () => {
             Signup
           </button>
         </div>
+
         <p className="mt-4 m-2 text-black">
-          Already have an account?{" "}
+          Already have an account?
           <Link href="/login" className="text-blue-600">
             Login
           </Link>
