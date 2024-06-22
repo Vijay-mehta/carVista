@@ -13,7 +13,7 @@ const UserCar = () => {
   }, []);
   return (
     <div className=" bg-white">
-     <div className=" relative">{fetchCarInProgress ? <div className=" absolute top-64  left-28 md:top-[450px] md:left-[600px]"><Loader /> </div>:<div><CarList carData={fetchCarResult} /> </div>} </div>
+     <div className=" relative">{fetchCarInProgress ? <div className=" absolute top-64  left-28 md:top-[320px] md:left-[700px]"><Loader /> </div>:<div><CarList carData={fetchCarResult} /> </div>} </div>
       </div>
   );
 };
