@@ -3,8 +3,10 @@ import { useInternalApiService } from "@/app/hook/useInternalApiService";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const Signup = () => {
+  const router=useRouter();
   const [userData, setUserData] = useState({
     file: "/home/Tesla.jpg",
     name: "",
@@ -34,6 +36,7 @@ const Signup = () => {
   const [saveUser, saveUserResult, saveUserInProgress, saveUserError] =
     useInternalApiService("api/users/signup", "POST");
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -54,6 +57,11 @@ const Signup = () => {
       toast.error(`${saveUserError}`);
     }
   }, [saveUserResult,saveUserError]);
+
+  if(saveUserResult){
+    router.push("/login")
+
+  }
 
   return (
     <div className="flex justify-center items-center">

@@ -1,37 +1,31 @@
 import { useState } from "react";
 
-export function useInternalApiService(action, method) {
+export function useInternalApiService(url, method = "get", initialValues = null) {
   const [response, setResponse] = useState({
-    result: null,
+    result: initialValues,
     inProgress: false,
-    error: null,
+    error: null
   });
 
   const fetchRequest = async ({ body = {}, params = [], query = {} } = {}) => {
     setResponse({
       result: null,
       inProgress: true,
-      error: null,
+      error: null
     });
 
     try {
-      let url = action;
+      let location = url;
       if (params && params.length > 0) {
-        url = `${url}/${params.join("/")}`;
+        location = `${url}/${params.join("/")}`;
       }
 
+  
       const options = {
         method: method.toUpperCase(),
-        headers: {},
+        headers: {}
       };
 
-      // Handle query parameters
-      if (query && Object.keys(query).length > 0) {
-        const queryString = new URLSearchParams(query).toString();
-        url += `?${queryString}`;
-      }
-
-      // Handle body
       if (body && (method === "POST" || method === "PUT")) {
         if (body instanceof FormData) {
           options.body = body;
@@ -41,26 +35,25 @@ export function useInternalApiService(action, method) {
         }
       }
 
-      const res = await fetch(url, options);
-
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.error || 'An unknown error occurred');
+      const response = await fetch(location, options);
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "unknown error");
       }
 
-      const data = await res.json();
-
+      const res = await response.json();
       setResponse({
-        result: data,
+        result: res,
         inProgress: false,
-        error: null,
+        error: null
       });
+
     } catch (error) {
-      console.error("Fetch request failed:", error.message);
       setResponse({
         result: null,
         inProgress: false,
-        error: error.message,
+        error: error.message
       });
     }
   };
