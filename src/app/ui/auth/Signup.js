@@ -34,10 +34,6 @@ const Signup = () => {
   const [saveUser, saveUserResult, saveUserInProgress, saveUserError] =
     useInternalApiService("api/users/signup", "POST");
 
-console.log("saveUserResult",saveUserResult)
-console.log("saveUserInProgress",saveUserInProgress)
-console.log("saveUserError",saveUserError)
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
