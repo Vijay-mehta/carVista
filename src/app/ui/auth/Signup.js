@@ -1,13 +1,12 @@
 "use client";
-import { useInternalApiService } from "@/app/hook/useInternalApiService";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { toast } from "react-toastify";
 
 const Signup = () => {
-  const router=useRouter();
+  const router = useRouter();
   const [userData, setUserData] = useState({
     file: "/home/Tesla.jpg",
     name: "",
@@ -34,11 +33,7 @@ const Signup = () => {
     }
   };
 
-  const [saveUser, saveUserResult, saveUserInProgress, saveUserError] =
-    useInternalApiService("api/users/signup", "POST");
-
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
@@ -46,22 +41,28 @@ const Signup = () => {
     formData.append("email", userData.email);
     formData.append("password", userData.password);
     formData.append("userprofile", userData.file);
-    saveUser({
-      body: formData,
-    });
-  };
 
-  useEffect(() => {
-    if (saveUserResult?.message) {
-      toast.success(`${saveUserResult?.message}`);
-    } else if (saveUserError) {
-      toast.error(`${saveUserError}`);
+    try {
+      const res = await fetch("http://localhost:3000/api/users/signup", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+      console.log("data", data);
+
+      if (data.success) {
+        toast.success("success")
+        // Redirect to login page or show success message
+        // router.push("/login");
+      } else {
+        // Handle error
+        console.error(data.message);
+      }
+    } catch (error) {
+      console.error("Error:", error);
     }
-  }, [saveUserResult,saveUserError]);
-
-  if(saveUserResult?.message){
-    router.push("/login")
-  }
+  };
 
   return (
     <div className="flex justify-center items-center">
@@ -89,7 +90,7 @@ const Signup = () => {
             id="picId"
           />
         </div>
-        <div className="flex flex-col  mt-6">
+        <div className="flex flex-col mt-6">
           <input
             type="text"
             placeholder="Enter Your Name"
