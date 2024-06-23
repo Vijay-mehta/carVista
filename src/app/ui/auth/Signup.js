@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const Signup = () => {
   const router=useRouter();
@@ -73,7 +74,7 @@ const Signup = () => {
           Signup Form
         </h1>
         <div className="flex justify-center">
-          <img
+          <Image
             src={imagePreview}
             width={250}
             height={250}
