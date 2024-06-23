@@ -37,7 +37,6 @@ const Signup = () => {
   const [saveUser, saveUserResult, saveUserInProgress, saveUserError] =
     useInternalApiService("api/users/signup", "POST");
 
-    console.log("saveUserResult==>",saveUserResult)
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -47,13 +46,10 @@ const Signup = () => {
     formData.append("email", userData.email);
     formData.append("password", userData.password);
     formData.append("userprofile", userData.file);
- 
     saveUser({
       body: formData,
     });
   };
-
-
 
   useEffect(() => {
     if (saveUserResult) {
@@ -63,7 +59,7 @@ const Signup = () => {
     }
   }, [saveUserResult,saveUserError]);
 
-  if(saveUserResult){
+  if(saveUserResult?.message){
     router.push("/login")
   }
 
