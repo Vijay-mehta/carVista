@@ -1,15 +1,14 @@
-"use client";
-import { useInternalApiService } from "@/app/hook/useInternalApiService";
+import { useState } from "react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
+import { useInternalApiService } from "@/app/hook/useInternalApiService";
 
 const Signup = () => {
-  const router=useRouter();
+  const router = useRouter();
   const [userData, setUserData] = useState({
-    file: "/home/Tesla.jpg",
+    file: null, // Initialize file as null
     name: "",
     email: "",
     password: "",
@@ -23,7 +22,7 @@ const Signup = () => {
       const file = files[0];
       setUserData((prev) => ({
         ...prev,
-        file: file,
+        file: file, // Set the file object directly
       }));
       setImagePreview(URL.createObjectURL(file));
     } else {
@@ -37,9 +36,7 @@ const Signup = () => {
   const [saveUser, saveUserResult, saveUserInProgress, saveUserError] =
     useInternalApiService("api/users/signup", "POST");
 
-    console.log("saveUserResult==>",saveUserResult)
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
@@ -47,22 +44,20 @@ const Signup = () => {
     formData.append("email", userData.email);
     formData.append("password", userData.password);
     formData.append("userprofile", userData.file);
-    saveUser({
-      body: formData,
-    });
-  };
 
-  useEffect(() => {
-    if (saveUserResult) {
-      toast.success(`${saveUserResult?.message}`);
-    } else if (saveUserError) {
-      toast.error(`${saveUserError}`);
+    try {
+      await saveUser({
+        body: formData,
+      });
+
+      if (saveUserResult) {
+        toast.success(`${saveUserResult?.message}`);
+        router.push("/login");
+      }
+    } catch (error) {
+      toast.error(`${error.message}`);
     }
-  }, [saveUserResult,saveUserError]);
-
-  if(saveUserResult){
-    router.push("/login")
-  }
+  };
 
   return (
     <div className="flex justify-center items-center">
@@ -90,7 +85,7 @@ const Signup = () => {
             id="picId"
           />
         </div>
-        <div className="flex flex-col  mt-6">
+        <div className="flex flex-col mt-6">
           <input
             type="text"
             placeholder="Enter Your Name"
