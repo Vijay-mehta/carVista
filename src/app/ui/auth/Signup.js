@@ -59,7 +59,7 @@ const Signup = () => {
     }
   }, [saveUserResult,saveUserError]);
 
-  if(!saveUserError){
+  if(saveUserResult?.message){
     router.push("/login")
   }
 
