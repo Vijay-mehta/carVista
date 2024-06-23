@@ -43,7 +43,7 @@ const Signup = () => {
     formData.append("userprofile", userData.file);
 
     try {
-      const res = await fetch("http://localhost:3000/api/users/signup", {
+      const res = await fetch("api/users/signup", {
         method: "POST",
         body: formData,
       });
