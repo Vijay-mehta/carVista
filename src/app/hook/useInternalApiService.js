@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-export function useInternalApiService(url, method = "get", initialValues = null) {
+export function useInternalApiService(url, method , initialValues = null) {
+  console.log("methos",method)
   const [response, setResponse] = useState({
     result: initialValues,
     inProgress: false,
