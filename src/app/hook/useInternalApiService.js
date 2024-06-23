@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 export function useInternalApiService(url, method, initialValues = null) {
+  console.log("body9090",body)
   const [response, setResponse] = useState({
     result: initialValues,
     inProgress: false,

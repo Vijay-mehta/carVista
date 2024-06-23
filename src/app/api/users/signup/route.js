@@ -14,7 +14,6 @@ export async function POST(req) {
     const email = reqBody.get("email");
     const password = reqBody.get("password");
     const userprofile = reqBody.get("userprofile"); 
-    console.log("api reqBody",reqBody)
 
     const fields = {
       userprofile,
