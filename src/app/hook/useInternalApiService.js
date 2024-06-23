@@ -1,39 +1,46 @@
-'use client'
 import { useState } from "react";
 
-export function useInternalApiService(url, method) {
+export function useInternalApiService(url, method, initialValues = null) {
   const [response, setResponse] = useState({
-    result: null,
+    result: initialValues,
     inProgress: false,
-    error: null,
+    error: null
   });
 
-  const fetchRequest = async ({ body = {} } = {}) => {
+  const fetchRequest = async ({ body = {}, params = [], query = {} } = {}) => {
+    console.log("body9090",body)
+
     setResponse({
       result: null,
       inProgress: true,
-      error: null,
+      error: null
     });
 
     try {
-      const options = {
-        method: method.toUpperCase(),
-        headers: {},
-        body: body,
-      };
-
-      // Handle different content types
-      if (body instanceof FormData) {
-        delete options.headers["Content-Type"]; // Let browser handle it
-      } else {
-        options.headers["Content-Type"] = "application/json";
-        options.body = JSON.stringify(body);
+      let location = url;
+      if (params && params.length > 0) {
+        location = `${url}/${params.join("/")}`;
       }
 
-      const response = await fetch(url, options);
+      const options = {
+        method: method.toUpperCase(),
+        headers: {}
+      };
+
+      if (body && (method === "POST" || method === "PUT")) {
+        if (body instanceof FormData) {
+          options.body = body;
+        } else {
+          options.body = JSON.stringify(body);
+          options.headers['Content-Type'] = 'application/json';
+        }
+      }
+
+      const response = await fetch(location, options);
 
       if (!response.ok) {
         const errorData = await response.json();
+        console.error("Fetch error:", errorData);
         throw new Error(errorData.error || "Unknown error");
       }
 
@@ -42,18 +49,16 @@ export function useInternalApiService(url, method) {
       setResponse({
         result: res,
         inProgress: false,
-        error: null,
+        error: null
       });
 
-      return res;
     } catch (error) {
+      console.error("Request failed:", error);
       setResponse({
         result: null,
         inProgress: false,
-        error: error.message,
+        error: error.message
       });
-
-      throw error;
     }
   };
 
