@@ -78,6 +78,8 @@ export async function POST(req) {
 
     const savedUser = await newUser.save();
 
+    console.log("api saveDUser",savedUser)
+
     return NextResponse.json({
       message: "User successfully registered",
       success: true,
