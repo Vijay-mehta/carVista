@@ -59,9 +59,8 @@ const Signup = () => {
     }
   }, [saveUserResult,saveUserError]);
 
-  if(saveUserResult){
+  if(!saveUserError){
     router.push("/login")
-
   }
 
   return (
