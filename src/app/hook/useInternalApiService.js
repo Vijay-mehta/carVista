@@ -19,7 +19,11 @@ export function useInternalApiService(url, method , initialValues = null) {
       let location = url;
       if (params && params.length > 0) {
         location = `${url}/${params.join("/")}`;
+        
       }
+
+      console.log("location",location)
+
 
   
       const options = {
@@ -29,6 +33,7 @@ export function useInternalApiService(url, method , initialValues = null) {
 
       if (body && (method === "POST" || method === "PUT")) {
         if (body instanceof FormData) {
+          console.log("FormData",body)
           options.body = body;
         } else {
           options.body = JSON.stringify(body);
@@ -37,6 +42,8 @@ export function useInternalApiService(url, method , initialValues = null) {
       }
 
       const response = await fetch(location, options);
+
+      console.log("first response",response)
       
       if (!response.ok) {
         const errorData = await response.json();
@@ -44,11 +51,15 @@ export function useInternalApiService(url, method , initialValues = null) {
       }
 
       const res = await response.json();
+      console.log("second res",res)
+
       setResponse({
         result: res,
         inProgress: false,
         error: null
       });
+
+      
 
     } catch (error) {
       setResponse({
