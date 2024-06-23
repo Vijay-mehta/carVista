@@ -37,6 +37,7 @@ const Signup = () => {
   const [saveUser, saveUserResult, saveUserInProgress, saveUserError] =
     useInternalApiService("api/users/signup", "POST");
 
+    console.log("saveUserResult==>",saveUserResult)
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -52,14 +53,14 @@ const Signup = () => {
   };
 
   useEffect(() => {
-    if (saveUserResult?.message) {
+    if (saveUserResult) {
       toast.success(`${saveUserResult?.message}`);
     } else if (saveUserError) {
       toast.error(`${saveUserError}`);
     }
   }, [saveUserResult,saveUserError]);
 
-  if(saveUserResult?.message){
+  if(saveUserResult){
     router.push("/login")
   }
 
