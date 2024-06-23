@@ -14,6 +14,7 @@ export async function POST(req) {
     const email = reqBody.get("email");
     const password = reqBody.get("password");
     const userprofile = reqBody.get("userprofile"); 
+    console.log("api reqBody",reqBody)
 
     const fields = {
       userprofile,
@@ -78,7 +79,6 @@ export async function POST(req) {
 
     const savedUser = await newUser.save();
 
-    console.log("api saveDUser",savedUser)
 
     return NextResponse.json({
       message: "User successfully registered",
