@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 export function useInternalApiService(url, method, initialValues = null) {
-  console.log("body9090",body)
   const [response, setResponse] = useState({
     result: initialValues,
     inProgress: false,
@@ -9,6 +8,8 @@ export function useInternalApiService(url, method, initialValues = null) {
   });
 
   const fetchRequest = async ({ body = {}, params = [], query = {} } = {}) => {
+    console.log("body9090",body)
+
     setResponse({
       result: null,
       inProgress: true,
