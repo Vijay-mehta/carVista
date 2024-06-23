@@ -1,7 +1,6 @@
 import { useState } from "react";
 
-export function useInternalApiService(url, method , initialValues = null) {
-  console.log("methos",method)
+export function useInternalApiService(url, method, initialValues = null) {
   const [response, setResponse] = useState({
     result: initialValues,
     inProgress: false,
@@ -19,13 +18,8 @@ export function useInternalApiService(url, method , initialValues = null) {
       let location = url;
       if (params && params.length > 0) {
         location = `${url}/${params.join("/")}`;
-        
       }
 
-      console.log("location",location)
-
-
-  
       const options = {
         method: method.toUpperCase(),
         headers: {}
@@ -33,7 +27,6 @@ export function useInternalApiService(url, method , initialValues = null) {
 
       if (body && (method === "POST" || method === "PUT")) {
         if (body instanceof FormData) {
-          console.log("FormData",body)
           options.body = body;
         } else {
           options.body = JSON.stringify(body);
@@ -43,15 +36,13 @@ export function useInternalApiService(url, method , initialValues = null) {
 
       const response = await fetch(location, options);
 
-      console.log("first response",response)
-      
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || "unknown error");
+        console.error("Fetch error:", errorData);
+        throw new Error(errorData.error || "Unknown error");
       }
 
       const res = await response.json();
-      console.log("second res",res)
 
       setResponse({
         result: res,
@@ -59,9 +50,8 @@ export function useInternalApiService(url, method , initialValues = null) {
         error: null
       });
 
-      
-
     } catch (error) {
+      console.error("Request failed:", error);
       setResponse({
         result: null,
         inProgress: false,
