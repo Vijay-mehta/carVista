@@ -45,10 +45,10 @@ export function useInternalApiService(url, method , initialValues = null) {
 
       console.log("first response",response)
       
-      // if (!response.ok) {
-      //   const errorData = await response.json();
-      //   throw new Error(errorData.error || "unknown error");
-      // }
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "unknown error");
+      }
 
       const res = await response.json();
       console.log("second res",res)
