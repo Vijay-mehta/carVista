@@ -24,6 +24,7 @@ export async function POST(req) {
 
     for (const [field, value] of Object.entries(fields)) {
       if (!value) {
+        console.log(`${field} is required`);
         return NextResponse.json(
           { error: `${field} is required` },
           { status: 400 }
@@ -33,6 +34,7 @@ export async function POST(req) {
 
     const existUser = await User.findOne({ email });
     if (existUser) {
+      console.log("User already exists");
       return NextResponse.json(
         { error: "User already exists" },
         { status: 409 }
@@ -43,6 +45,7 @@ export async function POST(req) {
     const isValidEmail = emailPattern.test(email);
 
     if (!isValidEmail) {
+      console.log("Invalid email format");
       return NextResponse.json(
         { error: "Invalid email format" },
         { status: 400 }
@@ -56,14 +59,18 @@ export async function POST(req) {
     const dirPath = path.join(process.cwd(), 'public', 'uploads');
     const filePath = path.join(dirPath, fileName);
 
+    console.log("filePath", filePath);
 
+    // Create the directory if it doesn't exist
     if (!fs.existsSync(dirPath)) {
       fs.mkdirSync(dirPath, { recursive: true });
     }
 
+    // Read and write the uploaded file
     const fileBuffer = Buffer.from(await userprofile.arrayBuffer());
     fs.writeFileSync(filePath, fileBuffer);
 
+    console.log(`Image written to ${filePath}`);
 
     const newUser = new User({
       userprofile: filePath,
@@ -86,9 +93,10 @@ export async function POST(req) {
       status: 200,
     });
   } catch (error) {
-    console.log(`Something went wrong: ${error}`);
+    console.error(`Something went wrong: ${error.message}`);
+    console.error(error.stack);
     return NextResponse.json({
-      error: "Something went wrong",
+      error: `Something went wrong: ${error.message}`,
       status: 500,
     });
   }
