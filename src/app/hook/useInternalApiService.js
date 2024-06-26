@@ -8,7 +8,6 @@ export function useInternalApiService(url, method, initialValues = null) {
   });
 
   const fetchRequest = async ({ body = {}, params = [], query = {} } = {}) => {
-    console.log("body9090",body)
 
     setResponse({
       result: null,

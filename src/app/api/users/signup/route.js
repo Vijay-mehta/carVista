@@ -52,22 +52,18 @@ export async function POST(req) {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Generate unique file name and path
     const fileName = `${Date.now()}-${userprofile.name}`;
-    const filePath = path.join(process.cwd(), "Uploads", fileName);
+    const dirPath = path.join(process.cwd(), 'public', 'uploads');
+    const filePath = path.join(dirPath, fileName);
 
-    // Ensure the Uploads directory exists
-    const uploadsDir = path.join(process.cwd(), "Uploads");
-    if (!fs.existsSync(uploadsDir)) {
-      fs.mkdirSync(uploadsDir, { recursive: true });
+
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath, { recursive: true });
     }
 
-    // Convert the file to a buffer
-    const arrayBuffer = await userprofile.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
+    const fileBuffer = Buffer.from(await userprofile.arrayBuffer());
+    fs.writeFileSync(filePath, fileBuffer);
 
-    // Write the file data to disk
-    await fs.promises.writeFile(filePath, buffer);
 
     const newUser = new User({
       userprofile: filePath,
@@ -77,7 +73,6 @@ export async function POST(req) {
     });
 
     const savedUser = await newUser.save();
-
 
     return NextResponse.json({
       message: "User successfully registered",
