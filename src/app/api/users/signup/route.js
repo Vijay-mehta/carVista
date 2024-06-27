@@ -61,16 +61,13 @@ export async function POST(req) {
 
     console.log("filePath", filePath);
 
-    // Create the directory if it doesn't exist
     if (!fs.existsSync(dirPath)) {
       fs.mkdirSync(dirPath, { recursive: true });
     }
 
-    // Read and write the uploaded file
     const fileBuffer = Buffer.from(await userprofile.arrayBuffer());
     fs.writeFileSync(filePath, fileBuffer);
 
-    console.log(`Image written to ${filePath}`);
 
     const newUser = new User({
       userprofile: filePath,
