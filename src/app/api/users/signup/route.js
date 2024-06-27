@@ -58,13 +58,7 @@ export async function POST(req) {
     const fileName = `${Date.now()}-${userprofile.name}`;
     const dirPath = path.join(process.cwd(), 'public', 'uploads');
     const filePath = path.join(dirPath, fileName);
-
-    console.log("filePath", filePath);
-
-    if (!fs.existsSync(dirPath)) {
-      fs.mkdirSync(dirPath, { recursive: true });
-    }
-
+ 
     const fileBuffer = Buffer.from(await userprofile.arrayBuffer());
     fs.writeFileSync(filePath, fileBuffer);
 
