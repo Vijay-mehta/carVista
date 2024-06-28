@@ -56,7 +56,7 @@ export async function POST(req) {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const fileName = `${Date.now()}-${userprofile.name}`;
-    const dirPath = path.join(process.cwd(), 'public', 'uploads');
+    const dirPath = path.join(process.cwd(), 'public', 'Uploads');
     const filePath = path.join(dirPath, fileName);
  
     const fileBuffer = Buffer.from(await userprofile.arrayBuffer());
