@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 const Signup = () => {
-  const router=useRouter();
+  const router = useRouter();
   const [userData, setUserData] = useState({
     file: "/home/Tesla.jpg",
     name: "",
@@ -15,10 +15,23 @@ const Signup = () => {
     password: "",
   });
 
+  console.log("userData", userData);
+
   const [imagePreview, setImagePreview] = useState("/home/Tesla.jpg");
+  const [error, setError] = useState({
+    file:false,
+    name:false,
+    email:false,
+    password:false
+  });
+
+  console.log("error", error);
 
   const handleChange = (e) => {
     const { files, value, name } = e.target;
+  
+  
+   
     if (name === "file" && files.length > 0) {
       const file = files[0];
       setUserData((prev) => ({
@@ -37,10 +50,19 @@ const Signup = () => {
   const [saveUser, saveUserResult, saveUserInProgress, saveUserError] =
     useInternalApiService("api/users/signup", "POST");
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
+   const newError ={
+     name:userData.name.length<=0,
+     email:userData.email.length<=0,
+     password:userData.password.length<=0,
+    }
 
+    
+    if(Object.values(newError).some((value)=> value === true)){
+      return setError(newError);
+    }
+  
     const formData = new FormData();
     formData.append("username", userData.name);
     formData.append("email", userData.email);
@@ -49,6 +71,9 @@ const Signup = () => {
     saveUser({
       body: formData,
     });
+  
+      
+    
   };
 
   useEffect(() => {
@@ -57,10 +82,10 @@ const Signup = () => {
     } else if (saveUserError) {
       toast.error(`${saveUserError}`);
     }
-  }, [saveUserResult,saveUserError]);
+  }, [saveUserResult, saveUserError]);
 
-  if(saveUserResult?.message){
-    router.push("/login")
+  if (saveUserResult?.message) {
+    router.push("/login");
   }
 
   return (
@@ -97,6 +122,8 @@ const Signup = () => {
             onChange={handleChange}
             className="px-4 py-3 m-2 border border-gray-300 bg-gray-100 text-black"
           />
+          { error.name && <p   className=" text-red-700 ml-2">Name is Required</p>}
+
           <input
             type="email"
             placeholder="Enter Your Email"
@@ -104,13 +131,18 @@ const Signup = () => {
             onChange={handleChange}
             className="px-4 py-3 m-2 border border-gray-300 bg-gray-100 text-black"
           />
+                    { error.email && <p   className=" text-red-700 ml-2">Name is Required</p>}
+
           <input
             type="password"
             placeholder="Enter Your Password"
             name="password"
             onChange={handleChange}
-            className="px-4 py-3 m-2 border border-gray-300 bg-gray-100 text-black"
+            className="
+            px-4 py-3 m-2 border border-gray-300 bg-gray-100 text-black"
           />
+                    { error.password && <p   className=" text-red-700 ml-2">Name is Required</p>}
+
         </div>
         <div className="flex m-2">
           <button

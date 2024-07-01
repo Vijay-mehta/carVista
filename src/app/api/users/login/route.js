@@ -1,6 +1,8 @@
 import User from "@/models/userModel";
 import { mongoConnect } from "@/dbconfig/dbconfig";
 import { NextResponse } from "next/server";
+import { toast } from "react-toastify";
+import bcrypt from 'bcryptjs'
 
 mongoConnect();
 
@@ -8,7 +10,6 @@ export async function POST(req) {
   try {
     const reqBody = await req.json();
     const { email, password } = reqBody;
-
     if (!email) {
       return NextResponse.json({ error: "email is required" }, { status: 409 });
     } else if (!password) {
@@ -18,9 +19,21 @@ export async function POST(req) {
       );
     }
 
+
+
     const userNotExist = await User.findOne({ email });
+
     if (!userNotExist) {
       return NextResponse.json({ error: "User Not Found" }, { status: 400 });
+    }
+
+
+
+    const match =await bcrypt.compare(password,userNotExist.password)
+
+    if(!match){
+      return NextResponse.json({ error: "Invalid email or password." }, { status: 400 });
+
     }
 
     return NextResponse.json({
