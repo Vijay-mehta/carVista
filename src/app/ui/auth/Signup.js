@@ -131,7 +131,7 @@ const Signup = () => {
             onChange={handleChange}
             className="px-4 py-3 m-2 border border-gray-300 bg-gray-100 text-black"
           />
-                    { error.email && <p   className=" text-red-700 ml-2">Name is Required</p>}
+                    { error.email && <p   className=" text-red-700 ml-2">Email is Required</p>}
 
           <input
             type="password"
@@ -141,7 +141,7 @@ const Signup = () => {
             className="
             px-4 py-3 m-2 border border-gray-300 bg-gray-100 text-black"
           />
-                    { error.password && <p   className=" text-red-700 ml-2">Name is Required</p>}
+                    { error.password && <p   className=" text-red-700 ml-2">Password is Required</p>}
 
         </div>
         <div className="flex m-2">
