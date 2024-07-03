@@ -30,7 +30,10 @@ const Signup = () => {
   const handleChange = (e) => {
     const { files, value, name } = e.target;
   
-  
+  setError((prev)=>({
+    ...prev,
+    [name]:value.length<=0
+  }))
    
     if (name === "file" && files.length > 0) {
       const file = files[0];

@@ -4,45 +4,63 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 const Login = () => {
+  const [error, setError] = useState({
+    email: false,
+    password: false,
+  });
   const [loginUser, loginUserResult, loginUserInProgress, loginUserError] =
     useInternalApiService("api/users/login", "POST");
 
-    const [userData,setUserData]=useState({
-        email:"",
-        password:""
-    })
+  const [userData, setUserData] = useState({
+    email: "",
+    password: "",
+  });
 
-    console.log("loginUserError",loginUserError)
+  console.log("userData login", error);
+
+  console.log("loginUserError", loginUserError);
   const handleChange = (e) => {
-
-    let {name,value} = e.target;
-    setUserData((prev)=>({
-        ...prev,
-        [name]:value
-    }))
-   
+    let { name, value } = e.target;
+    setError((prev) => ({
+      ...prev,
+      [name]: value.length <= 0,
+    }));
+    setUserData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
-const handleSubmit=(e)=>{
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    loginUser({
-        body:{email:userData.email,
-            password:userData.password}
-    })
-}
+    const newError = {
+      email: userData.email.length <= 0,
+      password: userData.password.length <= 0,
+    };
 
-useEffect(()=>{
-    if(loginUserResult){
-        toast.success(`${loginUserResult.message} `)
-    }else if(loginUserError){
-        toast.error(`${loginUserError} `)
-
+    if (Object.values(newError).some((value) => value === true)) {
+      return setError(newError);
     }
-},[loginUserResult,loginUserError])
+
+    loginUser({
+      body: { email: userData.email, password: userData.password },
+    });
+  };
+
+  useEffect(() => {
+    if (loginUserResult) {
+      toast.success(`${loginUserResult.message} `);
+    } else if (loginUserError) {
+      toast.error(`${loginUserError} `);
+    }
+  }, [loginUserResult, loginUserError]);
 
   return (
     <div className=" flex justify-center">
-      <form className="bg-[#faebd7] px-4 py-36 h-screen w-full md:w-[600px] md:h-[600px]" onSubmit={handleSubmit}>
+      <form
+        className="bg-[#faebd7] px-4 py-36 h-screen w-full md:w-[600px] md:h-[600px]"
+        onSubmit={handleSubmit}
+      >
         <h1 className="text-center font-semibold mb-8 text-black">
           Login Form
         </h1>
@@ -55,6 +73,9 @@ useEffect(()=>{
             onChange={handleChange}
             className="px-4 py-3 m-2 border border-gray-300 bg-gray-100 text-black "
           />
+          {error.email && (
+            <p className=" text-red-700 font-medium m-2">Email is Required</p>
+          )}
           <input
             type="password"
             placeholder="Enter Your Password"
@@ -62,6 +83,12 @@ useEffect(()=>{
             onChange={handleChange}
             className="px-4 py-3 m-2 border border-gray-300 bg-gray-100 text-black "
           />
+          {error.password && (
+            <p className=" text-red-700 font-medium m-2">
+              Password is Required
+            </p>
+          )}
+
           <div className=" flex m-2">
             <button
               type="submit"
